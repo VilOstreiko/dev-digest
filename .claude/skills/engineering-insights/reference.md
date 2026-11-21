@@ -44,4 +44,4 @@ Test before writing: if it is obvious to anyone reading the code, do not write i
 ## Maintenance (humans, not the agent during capture)
 
 - Past ~200 entries per file, or once a finding has come up in 2+ sessions: a separate, reviewed commit promotes it to the package CLAUDE.md Gotchas and removes it here, merges duplicates, and drops fixed or stale entries.
-- `scripts/check-append-only.sh` will flag that commit — expected; the reviewer is the check there.
+- The append-only check in SKILL.md step 6 will flag that commit — expected; the reviewer is the check there.
