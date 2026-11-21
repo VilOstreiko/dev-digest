@@ -1,25 +1,13 @@
 # client insights
 
 Log of non-obvious findings about `client/`: things the code does not make obvious
-and that cost time to discover. Written by the `engineering-insights` skill.
+and that cost time to discover.
 
-- Format: ``- YYYY-MM-DD — <finding> — <why / what to do> (`path` · `symbol`)``, under the matching section.
-- Append-only: never edit or delete a line; correct a wrong entry with a new dated entry.
-- Consolidation (promote to [`CLAUDE.md`](CLAUDE.md) Gotchas, merge, drop stale) is a separate human-reviewed commit.
+- One line per finding: `- YYYY-MM-DD — <what we learned> — <why it matters / where>`.
+- Newest at the bottom. Append; do not rewrite history.
+- When a finding has come up in 2+ sessions, move it into the Gotchas section of
+  [`CLAUDE.md`](CLAUDE.md) and delete it here. Do not log what CLAUDE.md already says.
 
-## What Works
-
-## What Doesn't Work
-
-## Codebase Patterns
+## Log
 
 - 2026-11-21 — `src/vendor/shared` has drifted from `server/src/vendor/shared` (5 files differ; e.g. `LLMProvider.id` lacks `openrouter`) — check both copies before relying on a contract.
-  Evidence: `client/src/vendor/shared/adapters.ts` · `LLMProvider` vs `server/src/vendor/shared/adapters.ts` · `LLMProvider`
-
-## Tool & Library Notes
-
-## Recurring Errors & Fixes
-
-## Session Notes
-
-## Open Questions

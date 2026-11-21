@@ -48,5 +48,5 @@ zod ^3.24 · TypeScript ^5.7 · vitest ^2.1 + jsdom + Testing Library. Package m
 - README.md — UI route map and the API calls behind each route
 - docs/ — deeper client docs; index in docs/README.md
 - specs/ — feature specs; read the relevant spec before implementing a feature
-- INSIGHTS.md — non-obvious findings by section; read first, append via `engineering-insights`
+- INSIGHTS.md — log of non-obvious findings; append a line when you learn one
 - ../e2e/README.md — browser flows that cover the main journeys

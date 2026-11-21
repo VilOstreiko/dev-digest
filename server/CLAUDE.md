@@ -56,5 +56,5 @@ zod ^3.24 · TypeScript ^5.7 · tsx · vitest ^2.1 (+ testcontainers). Package m
 - src/modules/repo-intel/README.md — indexer pipeline and facade
 - docs/ — deeper server docs; index in docs/README.md
 - specs/ — feature specs; read the relevant spec before implementing a feature
-- INSIGHTS.md — non-obvious findings by section; read first, append via `engineering-insights`
+- INSIGHTS.md — log of non-obvious findings; append a line when you learn one
 - ../TESTING.md — test strategy
