@@ -24,7 +24,8 @@ tsconfig path aliases. Each package has its own `CLAUDE.md` (auto-loaded inside 
 - `@devdigest/shared` exists as **two copies**: `server/src/vendor/shared` and
   `client/src/vendor/shared`. They have already drifted. A contract change must be
   applied to both.
-- `reviewer-core` resolves `@devdigest/shared` from `../server/src/vendor/shared`.
+- `specs/` means different things: feature specs (markdown) in `server/`, `client/`,
+  `reviewer-core/`, but executable test flows (`*.flow.json`) in `e2e/`.
 - Secrets live in `~/.devdigest/secrets.json` (fallback: env), never in the DB or git.
 - Seeded agents use `openrouter` / `deepseek/deepseek-v4-flash`: reviews need
   `OPENROUTER_API_KEY`, not only OpenAI/Anthropic keys.

@@ -17,11 +17,10 @@ Package manager: **npm**.
 ## Map
 
 - `src/index.ts` — public API; everything the server uses is exported here
-- `src/prompt.ts` — `assemblePrompt`, `wrapUntrusted`, `INJECTION_GUARD`
-- `src/grounding.ts` — `groundFindings`: the citation gate against the diff
-- `src/llm/` — OpenRouter provider, structured output (Zod → JSON Schema, parse-with-repair)
-- `src/review/` — `run.ts` (single-pass or map-reduce, chosen by the agent's `strategy`), `reduce.ts` (merges per-file results)
-- `src/output/to-review.ts` — CI payload helper (used from M6)
+- `src/prompt.ts`, `src/grounding.ts` — prompt assembly and the citation gate (see Do not touch)
+- `src/llm/` — OpenRouter provider and structured output
+- `src/review/` — run orchestration: single-pass or map-reduce, chosen by the agent's `strategy`
+- `src/output/` — CI payload helper
 
 ## Conventions (non-default)
 

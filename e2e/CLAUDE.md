@@ -29,7 +29,7 @@ tsx ^4.19 · TypeScript ^5.7. Package manager: **npm**.
 
 ## Gotchas
 
-- Needs a freshly seeded DB: flow `02` follows the home redirect to the first repo and assumes the seeded repo is the only one.
+- Needs a freshly seeded DB: flows `01` and `02` follow the home redirect to the first repo and assume the seeded repo is the only one.
 - `run.ts` only picks up files ending in `.flow.json`.
 
 ## Docs — read when relevant (not auto-loaded)

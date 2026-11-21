@@ -31,7 +31,7 @@ zod ^3.24 · TypeScript ^5.7 · tsx · vitest ^2.1 (+ testcontainers). Package m
 
 - New module: create `modules/<name>/routes.ts` and register it by hand in `src/modules/index.ts` (no autoload).
 - External dependencies come only from `Container` (`src/platform/container.ts`); tests swap them via `ContainerOverrides`.
-- Validate with the route's zod `schema`, not `Schema.parse(req.body)` in the handler.
+- Prefer the route's zod `schema` over `Schema.parse(req.body)` in the handler.
 - Every route resolves tenancy with `getContext(container, req)`.
 - A test that imports `test/helpers/pg.ts` must be named `*.it.test.ts`.
 
@@ -48,7 +48,7 @@ zod ^3.24 · TypeScript ^5.7 · tsx · vitest ^2.1 (+ testcontainers). Package m
 ## Do not touch
 
 - Applied files in `src/db/migrations/` and `meta/`: change the schema and run `pnpm db:generate`.
-- `src/vendor/shared/` without mirroring the change in `client/src/vendor/shared/`.
+- `src/vendor/shared/` alone: it has a client copy (see root CLAUDE.md).
 
 ## Docs — read when relevant (not auto-loaded)
 

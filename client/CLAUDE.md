@@ -34,7 +34,6 @@ zod ^3.24 · TypeScript ^5.7 · vitest ^2.1 + jsdom + Testing Library. Package m
 
 ## Gotchas
 
-- `src/vendor/shared/` is a separate copy and lags the server's (e.g. `LLMProvider.id` lacks `openrouter`).
 - API base comes from `NEXT_PUBLIC_API_BASE`, default `http://localhost:3001`.
 - Review runs return immediately; progress arrives over SSE `/runs/:id/events`, then the client refetches.
 - `messages/en/` already has namespaces for future milestones; unused ones are expected.
@@ -42,7 +41,7 @@ zod ^3.24 · TypeScript ^5.7 · vitest ^2.1 + jsdom + Testing Library. Package m
 ## Do not touch
 
 - `src/vendor/ui/` unless the task is about the UI kit itself.
-- `src/vendor/shared/` without mirroring the change in `server/src/vendor/shared/`.
+- `src/vendor/shared/` alone: it has a server copy (see root CLAUDE.md).
 
 ## Docs — read when relevant (not auto-loaded)
 
