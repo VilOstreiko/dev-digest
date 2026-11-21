@@ -37,5 +37,5 @@ tsx ^4.19 · TypeScript ^5.7. Package manager: **npm**.
 - README.md — flow format, env vars, how to run locally and in CI
 - docs/ — deeper e2e docs; index in docs/README.md
 - specs/ — the flow files themselves
-- INSIGHTS.md — log of non-obvious findings; append a line when you learn one
+- INSIGHTS.md — non-obvious findings by section; read first, append via `engineering-insights`
 - ../TESTING.md — test strategy

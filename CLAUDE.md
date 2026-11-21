@@ -31,6 +31,16 @@ tsconfig path aliases. Each package has its own `CLAUDE.md` (auto-loaded inside 
   `OPENROUTER_API_KEY`, not only OpenAI/Anthropic keys.
 - Only Postgres runs in Docker; API and web run on the host.
 
+## Insights loop — do not skip
+
+- **Start:** after every user prompt that concerns a package (development, a question
+  or a review), read that package's `INSIGHTS.md` before answering or editing. State
+  the top 3 relevant points, or "none relevant". Treat them as high-confidence
+  guidance unless the code contradicts them.
+- **End:** before reporting work done, run the `engineering-insights` skill. Write only
+  substantive findings not already in the file; if there are none, write nothing and
+  say "no new insights". Existing lines are never edited or deleted.
+
 ## Docs — read when relevant (not auto-loaded)
 
 - README.md — architecture diagram, quick start, roadmap (M1–M8)

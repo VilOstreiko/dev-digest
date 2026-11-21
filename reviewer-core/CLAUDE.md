@@ -42,5 +42,5 @@ Package manager: **npm**.
 - README.md — pipeline diagram and public API
 - docs/ — deeper engine docs; index in docs/README.md
 - specs/ — feature specs; read the relevant spec before implementing a feature
-- INSIGHTS.md — log of non-obvious findings; append a line when you learn one
+- INSIGHTS.md — non-obvious findings by section; read first, append via `engineering-insights`
 - ../TESTING.md — test strategy
