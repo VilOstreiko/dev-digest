@@ -8,7 +8,7 @@
 
 - One entry, one line. Concrete names and numbers, no hedging.
 - Evidence is a path plus a symbol (function, type, constant, route), not a line number: line numbers go stale after the first refactor, a symbol stays greppable.
-- A correction is a new entry: `- YYYY-MM-DD — Correction to "<first words of old entry>": <what is actually true> (...)`.
+- A correction or addition is a new entry: `- YYYY-MM-DD — Update to "<first words of old entry>": <what is actually true / new> (...)`.
 
 ## Sections
 
@@ -44,4 +44,3 @@ Test before writing: if it is obvious to anyone reading the code, do not write i
 ## Maintenance (humans, not the agent during capture)
 
 - Past ~200 entries per file, or once a finding has come up in 2+ sessions: a separate, reviewed commit promotes it to the package CLAUDE.md Gotchas and removes it here, merges duplicates, and drops fixed or stale entries.
-- The append-only check in SKILL.md step 6 will flag that commit — expected; the reviewer is the check there.
