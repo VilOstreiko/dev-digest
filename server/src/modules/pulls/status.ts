@@ -73,3 +73,23 @@ export function latestCostByPr(newestFirst: CostRunRow[]): Map<string, number> {
   }
   return totals;
 }
+
+export interface ReviewKeyRow {
+  id: string;
+  prId: string;
+  agentId: string | null;
+}
+
+export function latestReviewIdsByPrAgent(newestFirst: ReviewKeyRow[]): Map<string, string[]> {
+  const seen = new Set<string>();
+  const ids = new Map<string, string[]>();
+  for (const review of newestFirst) {
+    const key = `${review.prId}:${review.agentId ?? ''}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const list = ids.get(review.prId) ?? [];
+    list.push(review.id);
+    ids.set(review.prId, list);
+  }
+  return ids;
+}

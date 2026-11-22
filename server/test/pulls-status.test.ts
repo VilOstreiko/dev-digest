@@ -6,7 +6,13 @@
  * + age, so it gets unit coverage independent of the route's queries.
  */
 import { describe, it, expect } from 'vitest';
-import { deriveReviewStatus, latestCostByPr, rollupSeverities, STALE_DAYS } from '../src/modules/pulls/status.js';
+import {
+  deriveReviewStatus,
+  latestCostByPr,
+  latestReviewIdsByPrAgent,
+  rollupSeverities,
+  STALE_DAYS,
+} from '../src/modules/pulls/status.js';
 
 const DAY = 86_400_000;
 const now = Date.UTC(2026, 5, 11);
@@ -88,5 +94,31 @@ describe('latestCostByPr', () => {
     expect(totals.get('p1')).toBe(0.002);
     expect(totals.has('p2')).toBe(false);
     expect(totals.size).toBe(1);
+  });
+});
+
+describe('latestReviewIdsByPrAgent', () => {
+  it('keeps only the newest review per agent and collects every agent of a PR', () => {
+    const ids = latestReviewIdsByPrAgent([
+      { id: 'r4', prId: 'pr1', agentId: 'security' },
+      { id: 'r3', prId: 'pr1', agentId: 'perf' },
+      { id: 'r2', prId: 'pr1', agentId: 'security' },
+      { id: 'r1', prId: 'pr2', agentId: 'security' },
+    ]);
+    expect(ids.get('pr1')).toEqual(['r4', 'r3']);
+    expect(ids.get('pr2')).toEqual(['r1']);
+  });
+
+  it('groups reviews without an agent under their own key', () => {
+    const ids = latestReviewIdsByPrAgent([
+      { id: 'r3', prId: 'pr1', agentId: null },
+      { id: 'r2', prId: 'pr1', agentId: null },
+      { id: 'r1', prId: 'pr1', agentId: 'perf' },
+    ]);
+    expect(ids.get('pr1')).toEqual(['r3', 'r1']);
+  });
+
+  it('returns an empty map when there are no reviews', () => {
+    expect(latestReviewIdsByPrAgent([]).size).toBe(0);
   });
 });
