@@ -1,7 +1,7 @@
 /** Constants for the agents module. */
 
 /** Initial config version recorded for a newly-created agent. */
-export const INITIAL_AGENT_VERSION = 1;
+export const INITIAL_AGENT_VERSION = 0;
 
 /** Default agent description when none is supplied on insert. */
 export const DEFAULT_AGENT_DESCRIPTION = '';

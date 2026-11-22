@@ -17,7 +17,7 @@ export function toAgentDto(row: AgentRow): Agent {
     provider: row.provider as Provider,
     model: row.model,
     system_prompt: row.systemPrompt,
-    output_schema: row.outputSchema ?? null,
+    output_schema: row.outputSchema || null,
     enabled: row.enabled,
     version: row.version,
     strategy: row.strategy as ReviewStrategy,

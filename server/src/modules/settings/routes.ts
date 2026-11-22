@@ -51,7 +51,7 @@ export default async function settingsRoutes(appBase: FastifyInstance) {
         .insert(t.settings)
         .values({ workspaceId, userId, key, value })
         .onConflictDoUpdate({
-          target: [t.settings.workspaceId, t.settings.userId, t.settings.key],
+          target: [t.settings.workspaceId, t.settings.key],
           set: { value },
         });
     }
@@ -66,7 +66,7 @@ export default async function settingsRoutes(appBase: FastifyInstance) {
     '/settings/test-connection',
     {
       schema: { body: ConnTestRequest },
-      config: { rateLimit: { max: 20, timeWindow: '1 minute' } },
+      config: { rateLimit: { max: 500, timeWindow: '1 minute' } },
     },
     async (req): Promise<ConnTestResult> => {
     const { provider, key } = req.body;
