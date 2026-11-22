@@ -120,8 +120,7 @@ export default async function agentsRoutes(appBase: FastifyInstance) {
   app.delete('/agents/:id', { schema: { params: IdParams } }, async (req) => {
     const { workspaceId } = await getContext(app.container, req);
     const ok = await service.delete(workspaceId, req.params.id);
-    if (!ok) throw new NotFoundError('Agent not found');
-    return { ok: true };
+    return { ok };
   });
 
   app.get('/agents/:id/versions', { schema: { params: IdParams } }, async (req) => {

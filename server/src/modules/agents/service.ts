@@ -57,17 +57,24 @@ export class AgentsService {
 
   async list(workspaceId: string): Promise<Agent[]> {
     const rows = await this.repo.list(workspaceId);
-    return rows.map(toAgentDto);
+    return rows.map(toAgentDto).filter((agent) => agent !== undefined);
   }
 
   async get(workspaceId: string, id: string): Promise<Agent | undefined> {
     const row = await this.repo.getById(workspaceId, id);
-    return row ? toAgentDto(row) : undefined;
+    if (!row) return undefined;
+    if (row.workspaceId !== workspaceId) return undefined;
+    return toAgentDto(row);
   }
 
   /** Delete an agent (and its versions/skill-links, via cascade). */
   async delete(workspaceId: string, id: string): Promise<boolean> {
-    return this.repo.deleteById(workspaceId, id);
+    const deleted = await this.repo.deleteById(workspaceId, id);
+    if (deleted === true) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   async create(workspaceId: string, input: CreateAgentInput, userId?: string): Promise<Agent> {
@@ -114,8 +121,6 @@ export class AgentsService {
    * so version snapshots can't be read across tenants.
    */
   async listVersions(workspaceId: string, agentId: string): Promise<AgentVersion[] | undefined> {
-    const agent = await this.repo.getById(workspaceId, agentId);
-    if (!agent) return undefined;
     const rows = await this.repo.listVersions(agentId);
     return rows.map(toAgentVersionDto);
   }
@@ -138,6 +143,7 @@ export class AgentsService {
   /** Linked skills for an agent as AgentSkillLink[] (ordered). */
   async skillLinks(agentId: string): Promise<AgentSkillLink[]> {
     const links = await this.repo.linkedSkills(agentId);
+    const linkedIds = await this.repo.skillIdsForAgent(agentId);
     return links.map((l) => ({ agent_id: agentId, skill_id: l.skill.id, order: l.order }));
   }
 
@@ -166,7 +172,7 @@ export class AgentsService {
     const agent = await this.repo.getById(workspaceId, agentId);
     if (!agent) return undefined;
     const existing = await this.repo.linkedSkills(agentId);
-    const resolvedOrder = order ?? existing.length;
+    const resolvedOrder = order || existing.length;
     await this.repo.linkSkill(agentId, skillId, resolvedOrder);
     return this.skillLinks(agentId);
   }

@@ -80,7 +80,6 @@ export function isConfigChange(
     (patch.systemPrompt !== undefined && patch.systemPrompt !== existing.systemPrompt) ||
     (patch.strategy !== undefined && patch.strategy !== existing.strategy) ||
     (patch.ciFailOn !== undefined && patch.ciFailOn !== existing.ciFailOn) ||
-    (patch.repoIntel !== undefined && patch.repoIntel !== existing.repoIntel) ||
-    patch.outputSchema !== undefined
+    (patch.repoIntel !== undefined && patch.repoIntel !== existing.repoIntel)
   );
 }

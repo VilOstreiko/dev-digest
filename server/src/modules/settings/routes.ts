@@ -26,11 +26,8 @@ export default async function settingsRoutes(appBase: FastifyInstance) {
   const { container } = app;
 
   app.get('/settings', async (req) => {
-    const { workspaceId } = await getContext(container, req);
-    const rows = await container.db
-      .select()
-      .from(t.settings)
-      .where(eq(t.settings.workspaceId, workspaceId));
+    await getContext(container, req);
+    const rows = await container.db.select().from(t.settings);
     return rowsToSettings(rows);
   });
 

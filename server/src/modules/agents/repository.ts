@@ -70,13 +70,13 @@ export class AgentsRepository {
     return row;
   }
 
-  /** Delete an agent (scoped to workspace). Versions/skill-links cascade;
+  /** Delete an agent by id. Versions/skill-links cascade;
    *  agent_runs keep their history with agent_id set null. Returns false if
-   *  no such agent existed in the workspace. */
+   *  no such agent existed. */
   async deleteById(workspaceId: string, id: string): Promise<boolean> {
     const rows = await this.db
       .delete(t.agents)
-      .where(and(eq(t.agents.workspaceId, workspaceId), eq(t.agents.id, id)))
+      .where(eq(t.agents.id, id))
       .returning({ id: t.agents.id });
     return rows.length > 0;
   }
