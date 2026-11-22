@@ -10,7 +10,10 @@ vi.mock("../../../../../../../lib/hooks/reviews", () => ({
 
 import { FindingsPanel } from "./FindingsPanel";
 
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  vi.restoreAllMocks();
+});
 
 const FINDINGS: FindingRecord[] = [
   {
@@ -72,9 +75,9 @@ describe("FindingsPanel — severity pills", () => {
   it("shows a pill only for severities that have findings, highest first", () => {
     renderWithIntl(<FindingsPanel findings={MIXED} prId="pr1" />);
     const pills = screen.getAllByRole("button", { pressed: false });
-    expect(pills.map((p) => p.getAttribute("data-severity"))).toEqual(["CRITICAL", "WARNING"]);
-    expect(pill(/1\s*Critical/)).toBeInTheDocument();
-    expect(pill(/2\s*Warning/)).toBeInTheDocument();
+    expect(pills.map((p) => p.textContent)).toEqual(["1Critical", "2Warning"]);
+    expect(pill(/^1\s*Critical$/)).toBeInTheDocument();
+    expect(pill(/^2\s*Warning$/)).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /Suggestion/ })).not.toBeInTheDocument();
   });
 
@@ -123,12 +126,12 @@ describe("FindingsPanel — severity pills", () => {
   it("pill counts follow Hide low confidence, not the severity filter", () => {
     renderWithIntl(<FindingsPanel findings={MIXED} prId="pr1" />);
     fireEvent.click(pill(/Critical/));
-    expect(pill(/2\s*Warning/)).toBeInTheDocument();
+    expect(pill(/^2\s*Warning$/)).toBeInTheDocument();
     fireEvent.click(screen.getByRole("switch"));
-    expect(pill(/1\s*Warning/)).toBeInTheDocument();
-    expect(pill(/1\s*Critical/)).toBeInTheDocument();
+    expect(pill(/^1\s*Warning$/)).toBeInTheDocument();
+    expect(pill(/^1\s*Critical$/)).toBeInTheDocument();
     fireEvent.click(screen.getByRole("switch"));
-    expect(pill(/2\s*Warning/)).toBeInTheDocument();
+    expect(pill(/^2\s*Warning$/)).toBeInTheDocument();
   });
 
   it("keeps a pill at 0 and its selection when Hide low confidence hides all of its findings", () => {
@@ -139,7 +142,7 @@ describe("FindingsPanel — severity pills", () => {
     renderWithIntl(<FindingsPanel findings={findings} prId="pr1" />);
     fireEvent.click(pill(/Warning/));
     fireEvent.click(screen.getByRole("switch"));
-    expect(pill(/0\s*Warning/)).toHaveAttribute("aria-pressed", "true");
+    expect(pill(/^0\s*Warning$/)).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByText("No findings match")).toBeInTheDocument();
   });
 
@@ -150,12 +153,27 @@ describe("FindingsPanel — severity pills", () => {
     fireEvent.click(pill(/Critical/));
     fireEvent.click(pill(/Critical/));
     expect(errorSpy).not.toHaveBeenCalled();
-    errorSpy.mockRestore();
   });
 
   it("paints the selected pill in its severity colour", () => {
     renderWithIntl(<FindingsPanel findings={MIXED} prId="pr1" />);
     fireEvent.click(pill(/Critical/));
-    expect(pill(/Critical/)).toHaveStyle({ color: "var(--crit)", background: "var(--crit-bg)" });
+    expect(pill(/Critical/)).toHaveStyle({
+      color: "var(--crit)",
+      background: "var(--crit-bg)",
+      borderColor: "var(--crit)",
+    });
+    expect(pill(/Warning/)).toHaveStyle({ background: "transparent", borderColor: "var(--border)" });
+  });
+
+  it("counts and lists dismissed findings", () => {
+    const findings = [
+      ...MIXED,
+      rec({ id: "w3", severity: "WARNING", title: "Dismissed warning", dismissed_at: "2026-11-21T10:00:00Z" }),
+    ];
+    renderWithIntl(<FindingsPanel findings={findings} prId="pr1" />);
+    fireEvent.click(pill(/Warning/));
+    expect(pill(/^3\s*Warning$/)).toBeInTheDocument();
+    expect(screen.getByText("Dismissed warning")).toBeInTheDocument();
   });
 });

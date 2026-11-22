@@ -31,20 +31,20 @@ export function FindingsPanel({
   const [focusIdx, setFocusIdx] = React.useState(0);
 
   const counts = React.useMemo(() => severityPillCounts(findings, hideLow), [findings, hideLow]);
+  const activeSeverity = counts.some((c) => c.severity === severity) ? severity : null;
   const shown = React.useMemo(
-    () => visibleFindings(findings, hideLow, severity),
-    [findings, hideLow, severity],
+    () => visibleFindings(findings, hideLow, activeSeverity),
+    [findings, hideLow, activeSeverity],
   );
 
-  React.useEffect(() => {
-    if (severity && !counts.some((c) => c.severity === severity)) setSeverity(null);
-  }, [counts, severity]);
-
-  React.useEffect(() => {
+  const pickSeverity = (sev: Severity) => {
+    setSeverity(activeSeverity === sev ? null : sev);
     setFocusIdx(0);
-  }, [hideLow, severity]);
-
-  const pickSeverity = (sev: Severity) => setSeverity((cur) => (cur === sev ? null : sev));
+  };
+  const toggleHideLow = (on: boolean) => {
+    setHideLow(on);
+    setFocusIdx(0);
+  };
 
   // j/k navigation + a/d shortcuts on the focused finding (keyboard).
   React.useEffect(() => {
@@ -72,7 +72,7 @@ export function FindingsPanel({
                   key={c.severity}
                   severity={c.severity}
                   count={c.count}
-                  selected={severity === c.severity}
+                  selected={activeSeverity === c.severity}
                   onClick={() => pickSeverity(c.severity)}
                 />
               ))}
@@ -82,7 +82,7 @@ export function FindingsPanel({
         )}
         <div style={s.toggleGroup}>
           {t("panel.hideLowConfidence")}
-          <Toggle on={hideLow} onChange={setHideLow} size={16} />
+          <Toggle on={hideLow} onChange={toggleHideLow} size={16} />
         </div>
       </div>
 

@@ -114,5 +114,11 @@
   },
   "findingsHover": {
     "title": "{count, plural, one {# finding} other {# findings}}"
-  }
+  },
+  "severity": {
+    "critical": "Critical",
+    "warning": "Warning",
+    "suggestion": "Suggestion"
+  },
+  "severityCount": "{count} {label}"
 }

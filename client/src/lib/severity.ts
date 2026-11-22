@@ -1,22 +1,21 @@
 import type { Severity } from "@devdigest/shared";
 
-export const SEVERITIES = ["CRITICAL", "WARNING", "SUGGESTION"] as const satisfies readonly Severity[];
-
-export const SEVERITY_ORDER: Record<string, number> = {
+const SEVERITY_RANK = {
   CRITICAL: 0,
   WARNING: 1,
   SUGGESTION: 2,
-  INFO: 3,
-};
+} as const satisfies Record<Severity, number>;
 
-export function sortBySeverity<T extends { severity: string }>(findings: readonly T[]): T[] {
-  return [...findings].sort(
-    (a, b) => (SEVERITY_ORDER[a.severity] ?? 9) - (SEVERITY_ORDER[b.severity] ?? 9),
-  );
+export const SEVERITIES = (Object.keys(SEVERITY_RANK) as Severity[]).sort(
+  (a, b) => SEVERITY_RANK[a] - SEVERITY_RANK[b],
+);
+
+export function sortBySeverity<T extends { severity: Severity }>(findings: readonly T[]): T[] {
+  return [...findings].sort((a, b) => SEVERITY_RANK[a.severity] - SEVERITY_RANK[b.severity]);
 }
 
 export function countBySeverity(
-  findings: readonly { severity: string }[],
+  findings: readonly { severity: Severity }[],
 ): { severity: Severity; count: number }[] {
   return SEVERITIES.map((severity) => ({
     severity,

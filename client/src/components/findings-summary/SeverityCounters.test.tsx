@@ -47,19 +47,12 @@ describe("SeverityCounters", () => {
   it("shows one counter per present severity, from highest to lowest", () => {
     renderCounters(FINDINGS);
     const trigger = screen.getByLabelText("1 Critical, 1 Warning, 2 Suggestion");
-    const counters = trigger.querySelectorAll("[data-severity]");
-    expect([...counters].map((c) => c.getAttribute("data-severity"))).toEqual([
-      "CRITICAL",
-      "WARNING",
-      "SUGGESTION",
-    ]);
-    expect([...counters].map((c) => c.textContent)).toEqual(["1", "1", "2"]);
+    expect(trigger).toHaveTextContent(/^112$/);
   });
 
   it("skips severities that have no findings", () => {
     renderCounters([finding({ id: "c1", severity: "CRITICAL" }), finding({ id: "s1", severity: "SUGGESTION" })]);
-    const trigger = screen.getByLabelText("1 Critical, 1 Suggestion");
-    expect(trigger.querySelector('[data-severity="WARNING"]')).toBeNull();
+    expect(screen.getByLabelText("1 Critical, 1 Suggestion")).toHaveTextContent(/^11$/);
   });
 
   it("uses a help cursor on the counters", () => {
@@ -107,10 +100,37 @@ describe("SeverityCounters", () => {
     }
   });
 
-  it("opens on keyboard focus too", () => {
+  it("is reachable by keyboard and opens on focus, linked to the list", () => {
     renderCounters(FINDINGS);
-    fireEvent.focus(screen.getByLabelText(/Critical/));
-    expect(screen.getByRole("tooltip")).toBeInTheDocument();
+    const trigger = screen.getByLabelText(/Critical/);
+    act(() => trigger.focus());
+    expect(trigger).toHaveFocus();
+    const card = screen.getByRole("tooltip");
+    expect(trigger).toHaveAttribute("aria-describedby", card.id);
+  });
+
+  it("a card opened by keyboard stays open when the mouse passes over the counters", () => {
+    vi.useFakeTimers();
+    try {
+      renderCounters(FINDINGS);
+      const trigger = screen.getByLabelText(/Critical/);
+      act(() => trigger.focus());
+      fireEvent.mouseEnter(trigger);
+      fireEvent.mouseLeave(trigger);
+      act(() => {
+        vi.advanceTimersByTime(500);
+      });
+      expect(screen.getByRole("tooltip")).toBeInTheDocument();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("a click inside the list does not bubble to the row", () => {
+    const onParentClick = renderCounters(FINDINGS);
+    fireEvent.mouseEnter(screen.getByLabelText(/Critical/));
+    fireEvent.click(within(screen.getByRole("tooltip")).getByText("N+1 query"));
+    expect(onParentClick).not.toHaveBeenCalled();
   });
 
   it("a click does not bubble to the row and sends no request", () => {

@@ -127,6 +127,14 @@ describe("RunHistory — severity counters", () => {
     expect(screen.queryByText(/finding\(s\)/)).not.toBeInTheDocument();
   });
 
+  it("falls back to the plain count when the run's review has no findings", () => {
+    renderWithFindings(
+      [run({ status: "done", findings_count: 0, blockers: 0, score: 95 })],
+      new Map([["run-1", []]]),
+    );
+    expect(screen.getByText("0 finding(s)")).toBeInTheDocument();
+  });
+
   it("falls back to the plain count when the run's review is not loaded", () => {
     renderWithFindings([run({ status: "done", findings_count: 3, blockers: 0, score: 72 })], new Map());
     expect(screen.getByText("3 finding(s)")).toBeInTheDocument();

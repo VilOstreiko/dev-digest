@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { CARD_MAX_HEIGHT, CARD_WIDTH } from "./constants";
 
 export const s = {
   root: {
@@ -10,7 +11,7 @@ export const s = {
     alignItems: "center",
     gap: 10,
     cursor: "help",
-    outline: "none",
+    borderRadius: 4,
   } satisfies CSSProperties,
   counter: (color: string): CSSProperties => ({
     display: "inline-flex",
@@ -25,8 +26,8 @@ export const s = {
   card: {
     position: "fixed",
     zIndex: 1000,
-    width: 420,
-    maxHeight: 420,
+    width: CARD_WIDTH,
+    maxHeight: CARD_MAX_HEIGHT,
     overflowY: "auto",
     padding: "12px 14px",
     borderRadius: 10,

@@ -2,7 +2,7 @@
 
 ## Goal
 Let the PR list show each PR's findings by severity, and list them on hover, from the
-same `GET /repos/:id/pulls` call. No new endpoint, no extra request, no migration: the
+same `GET /repos/:id/pulls` call. No new endpoint, no extra request, no new column: the
 findings already live in the `findings` table.
 
 ## Scope
@@ -14,6 +14,8 @@ findings already live in the `findings` table.
   first, keeps the newest review of each agent per PR (same keying as `latestCostByPr`).
 - `GET /repos/:id/pulls`: one extra `IN` query on `findings` for those review ids,
   grouped by PR in JS. `score` is unchanged (latest review of the PR).
+- Index `findings_review_idx` on `findings.review_id` (migration `0011`), so that query
+  does not scan the whole table on every list refetch.
 
 ## Acceptance criteria
 - A PR's findings are the union of the newest `review` of every agent; older reviews of

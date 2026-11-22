@@ -22,6 +22,8 @@ and that cost time to discover. Written by the `engineering-insights` skill.
 
 ## Tool & Library Notes
 
+- 2026-11-22 — jsdom does not split a shorthand that contains `var()` (e.g. `border: 1px solid var(--crit)`) into longhands, so `toHaveStyle({ borderColor: "var(--crit)" })` fails even when the browser renders correctly. Write longhands (`borderWidth`/`borderStyle`/`borderColor`) when a test needs to assert one of them. (`client/src/app/repos/[repoId]/pulls/[number]/_components/FindingsPanel/styles.ts` · `s.pill`)
+
 - 2026-11-22 — A second stack can run next to another worktree's on 3000/3001: `API_PORT=3101 WEB_PORT=3100 pnpm dev` in `server/` (`WEB_PORT` sets the CORS origin) and `NEXT_PUBLIC_API_BASE=http://localhost:3101 pnpm dev --port 3100` in `client/`, sharing the same Postgres. The first `next dev` compile of a route can leave the list skeleton up for ~15 s; that is not a hang, so check the API log before debugging. (`server/src/platform/config.ts` · `API_PORT`/`WEB_PORT`)
 
 ## Recurring Errors & Fixes

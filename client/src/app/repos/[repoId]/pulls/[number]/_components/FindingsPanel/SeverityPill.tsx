@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useTranslations } from "next-intl";
 import { Icon, SEV, type Severity } from "@devdigest/ui";
 import { s } from "./styles";
 
@@ -15,6 +16,7 @@ export function SeverityPill({
   selected: boolean;
   onClick: () => void;
 }) {
+  const t = useTranslations("prReview");
   const sev = SEV[severity];
   const I = Icon[sev.icon];
   return (
@@ -27,7 +29,7 @@ export function SeverityPill({
     >
       <I size={13} style={{ color: sev.c }} />
       <span className="tnum">{count}</span>
-      {sev.label}
+      {t(`severity.${severity.toLowerCase()}`)}
     </button>
   );
 }
