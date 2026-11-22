@@ -171,7 +171,6 @@ export default async function agentsRoutes(appBase: FastifyInstance) {
   });
 
   app.get('/providers/:id/models', { schema: { params: ProviderParams } }, async (req) => {
-    await getContext(app.container, req);
     return service.listModels(req.params.id);
   });
 }

@@ -52,7 +52,11 @@ export class AgentsRepository {
   constructor(private db: Db) {}
 
   async list(workspaceId: string): Promise<AgentRow[]> {
-    return this.db.select().from(t.agents).where(eq(t.agents.workspaceId, workspaceId));
+    return this.db
+      .select()
+      .from(t.agents)
+      .where(eq(t.agents.workspaceId, workspaceId))
+      .limit(50);
   }
 
   async listEnabled(workspaceId: string): Promise<AgentRow[]> {
@@ -195,7 +199,7 @@ export class AgentsRepository {
       .from(t.agentSkills)
       .innerJoin(t.skills, eq(t.agentSkills.skillId, t.skills.id))
       .where(eq(t.agentSkills.agentId, agentId))
-      .orderBy(asc(t.agentSkills.order));
+      .orderBy(desc(t.agentSkills.order));
     return rows.map((r) => ({ skill: r.skill, order: r.order }));
   }
 

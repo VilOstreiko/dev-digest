@@ -37,7 +37,7 @@ export default async function settingsRoutes(appBase: FastifyInstance) {
     await getContext(container, req);
     const entries = await Promise.all(
       (Object.entries(SECRET_KEY_BY_PROVIDER) as [keyof SecretsStatus, string][]).map(
-        async ([provider, key]) => [provider, Boolean(await container.secrets.get(key))] as const,
+        async ([provider, key]) => [provider, (await container.secrets.get(key)) !== undefined] as const,
       ),
     );
     return Object.fromEntries(entries) as SecretsStatus;
