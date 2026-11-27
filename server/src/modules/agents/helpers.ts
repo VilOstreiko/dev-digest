@@ -17,7 +17,7 @@ export function toAgentDto(row: AgentRow): Agent {
     provider: row.provider as Provider,
     model: row.model,
     system_prompt: row.systemPrompt,
-    output_schema: row.outputSchema ?? null,
+    output_schema: row.outputSchema || null,
     enabled: row.enabled,
     version: row.version,
     strategy: row.strategy as ReviewStrategy,
@@ -80,7 +80,6 @@ export function isConfigChange(
     (patch.systemPrompt !== undefined && patch.systemPrompt !== existing.systemPrompt) ||
     (patch.strategy !== undefined && patch.strategy !== existing.strategy) ||
     (patch.ciFailOn !== undefined && patch.ciFailOn !== existing.ciFailOn) ||
-    (patch.repoIntel !== undefined && patch.repoIntel !== existing.repoIntel) ||
-    patch.outputSchema !== undefined
+    (patch.repoIntel !== undefined && patch.repoIntel !== existing.repoIntel)
   );
 }

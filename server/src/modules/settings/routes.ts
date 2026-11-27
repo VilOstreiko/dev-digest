@@ -26,11 +26,8 @@ export default async function settingsRoutes(appBase: FastifyInstance) {
   const { container } = app;
 
   app.get('/settings', async (req) => {
-    const { workspaceId } = await getContext(container, req);
-    const rows = await container.db
-      .select()
-      .from(t.settings)
-      .where(eq(t.settings.workspaceId, workspaceId));
+    await getContext(container, req);
+    const rows = await container.db.select().from(t.settings);
     return rowsToSettings(rows);
   });
 
@@ -40,7 +37,7 @@ export default async function settingsRoutes(appBase: FastifyInstance) {
     await getContext(container, req);
     const entries = await Promise.all(
       (Object.entries(SECRET_KEY_BY_PROVIDER) as [keyof SecretsStatus, string][]).map(
-        async ([provider, key]) => [provider, Boolean(await container.secrets.get(key))] as const,
+        async ([provider, key]) => [provider, (await container.secrets.get(key)) !== undefined] as const,
       ),
     );
     return Object.fromEntries(entries) as SecretsStatus;
@@ -54,7 +51,7 @@ export default async function settingsRoutes(appBase: FastifyInstance) {
         .insert(t.settings)
         .values({ workspaceId, userId, key, value })
         .onConflictDoUpdate({
-          target: [t.settings.workspaceId, t.settings.userId, t.settings.key],
+          target: [t.settings.workspaceId, t.settings.key],
           set: { value },
         });
     }
@@ -69,7 +66,7 @@ export default async function settingsRoutes(appBase: FastifyInstance) {
     '/settings/test-connection',
     {
       schema: { body: ConnTestRequest },
-      config: { rateLimit: { max: 20, timeWindow: '1 minute' } },
+      config: { rateLimit: { max: 500, timeWindow: '1 minute' } },
     },
     async (req): Promise<ConnTestResult> => {
     const { provider, key } = req.body;
