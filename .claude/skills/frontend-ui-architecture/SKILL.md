@@ -2,7 +2,7 @@
 name: frontend-ui-architecture
 description: "Frontend UI architecture and code organization for React / Next.js apps: where components, hooks, constants, helpers, utils, types, styles, tests and business logic belong, when to split a component, when to promote code to a shared folder, and which imports are allowed between folders. Use whenever creating a new component, page, hook or helper file, moving or splitting code, reviewing a PR for structure, or when the user asks 'where should this go', 'how should I structure this', 'should this be a util or a helper', 'where do I put this constant', 'where does this logic belong', 'folder structure', 'feature folders', 'barrel files' or 'separate logic from UI', even if they do not say 'architecture'. Not for hook/state API usage or rendering performance (use react-best-practices) or Next.js file conventions and RSC details (use next-best-practices)."
 metadata:
-  version: 1.1.0
+  version: 1.1.1
   updated: 2026-11-27
   sources: README.md
 ---

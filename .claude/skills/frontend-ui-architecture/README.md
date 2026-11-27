@@ -1,6 +1,6 @@
 # frontend-ui-architecture
 
-**Version:** 1.1.0 · **Updated:** 2026-11-27
+**Version:** 1.1.1 · **Updated:** 2026-11-27
 
 A skill that decides where frontend code lives and what it may depend on in React / Next.js apps:
 component placement and splitting, constants, helpers vs utils vs lib, business-logic layers, data
@@ -121,5 +121,6 @@ the top of this file. Keep both in sync.
 
 ### Changelog
 
+- **1.1.1** (2026-11-27): Removed the `evals/` test cases from the skill.
 - **1.1.0** (2026-11-27): Removed rules duplicated from react-best-practices (derive vs sync, event handlers, effects, context usage, `use` prefix). Moved Next.js server data access and Server Actions to `references/nextjs-server.md`, and model choice and FSD to `references/fsd.md`. Trimmed naming to repo-level decisions. Added eval cases under `evals/`.
 - **1.0.0** (2026-11-27): Initial version. 30 sources, colocation + feature-folders base model, DevDigest client mapping.

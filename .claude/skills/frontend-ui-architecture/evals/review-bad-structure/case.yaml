@@ -1,4 +1,0 @@
-schema_version: "1.1"
-name: review-bad-structure
-expected_outcome: |
-  Flags each item: isRunRetryable is a domain rule (with its threshold) not a util; global constants.ts mixes UI copy (→ messages/en), a business threshold (→ with the predicate) and config (→ api/config module); VerdictPill is route-private; cross-route import of AgentCard helpers must be replaced by promoting; aggregating components barrel should be dropped.

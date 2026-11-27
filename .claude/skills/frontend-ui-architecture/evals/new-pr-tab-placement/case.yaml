@@ -1,4 +1,0 @@
-schema_version: "1.1"
-name: new-pr-tab-placement
-expected_outcome: |
-  Plan + code that places the tab as a route-private component folder under the PR route's _components, adds an apiFetch-based endpoint call and a TanStack Query hook in lib/hooks/<domain>.ts, keeps page.tsx thin, puts UI strings into messages/en, colocates a test, and uses the @/ alias.

@@ -1,4 +1,0 @@
-schema_version: "1.1"
-name: classify-helpers-utils-lib
-expected_outcome: |
-  clampScore → shared generic utils; verdictLabel → helper next to ReviewRunAccordion (and its wording via i18n); QueryClient → lib/; useDebouncedValue → a shared non-data hooks location since two routes use it, not inside a lib/hooks/<domain>.ts data module.

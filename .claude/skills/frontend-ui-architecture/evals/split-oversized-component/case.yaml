@@ -1,4 +1,0 @@
-schema_version: "1.1"
-name: split-oversized-component
-expected_outcome: |
-  Pure logic (outcomeOf, tsOf, timeline merge/sort) moves to a colocated helpers/domain module with unit tests; commit and run rows become private children under RunHistory/_components/; nothing is promoted to shared folders; derived timeline computed during render.

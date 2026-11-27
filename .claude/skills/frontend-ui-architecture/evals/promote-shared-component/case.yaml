@@ -1,4 +1,0 @@
-schema_version: "1.1"
-name: promote-shared-component
-expected_outcome: |
-  Extracts the chip into its own component and promotes it (with MODEL_COLOR and modelColor) to top-level components/<kebab-name>/, updates AgentCard to use it, and FindingCard imports it from there; no cross-route import, no move into vendor/ui.
