@@ -15,6 +15,9 @@ and that cost time to discover. Written by the `engineering-insights` skill.
 
 ## Tool & Library Notes
 
+- 2026-11-27 — `lint:arch` cruises `../reviewer-core/src` from `server/`, so core paths appear as `../reviewer-core/src/...` and its `openai` import is unresolved (reviewer-core's own `node_modules` is usually not installed) and shows up as bare `openai`, not `node_modules/openai/` — rules targeting core must match both forms, as `onion-core-no-sdk` does. Also `tsPreCompilationDeps: true` is required or `import type` leaks (e.g. `AgentRow`) go unseen.
+  Evidence: `server/.dependency-cruiser.cjs` · `onion-core-no-sdk`
+
 ## Recurring Errors & Fixes
 
 ## Session Notes

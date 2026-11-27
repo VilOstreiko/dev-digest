@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: move-workspace-route-query
+expected_outcome: |
+  workspace/routes.ts no longer imports drizzle-orm or db/schema and no longer uses container.db; it
+  calls a WorkspaceService/use case. The query lives in a repository (the repos module owns the table)
+  behind a port, returns a non-Drizzle type and is workspace-scoped. The service receives its port via the
+  constructor. The JSON response shape is unchanged. A unit test covers the use case with an in-memory
+  fake. If architecture baselines exist they only shrink.

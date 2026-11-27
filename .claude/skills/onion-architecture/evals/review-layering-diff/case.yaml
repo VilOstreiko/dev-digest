@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: review-layering-diff
+context:
+  scaffold_script: place-files.sh
+expected_outcome: |
+  A numbered list of findings, most severe first. It flags: the agents route calling
+  container.llm() directly; AgentsService importing drizzle-orm/db schema and querying via
+  container.db; the HTTP status code set inside the service; the Octokit adapter importing a module
+  constant; ReviewsService using the AgentRow row type (extends legacy); the extra Drizzle query added to
+  pulls/routes.ts (extends legacy). It does not flag the repo-intel route using container.repoIntel or
+  the use of getContext(app.container, req). Each finding names a concrete fix.

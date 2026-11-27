@@ -12,6 +12,7 @@ zod ^3.24 · TypeScript ^5.7 · tsx · vitest ^2.1 (+ testcontainers). Package m
 
 - `pnpm dev` — API on :3001 (tsx watch)
 - `pnpm typecheck`
+- `pnpm lint:arch` — onion layering check (dependency-cruiser, baselined); rules: `onion-architecture` skill
 - `pnpm test` — unit + integration
 - `pnpm exec vitest run --exclude '**/*.it.test.ts'` — unit only, no Docker
 - `pnpm exec vitest run .it.test` — integration only, needs Docker
