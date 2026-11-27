@@ -11,6 +11,8 @@ and that cost time to discover. Written by the `engineering-insights` skill.
 
 ## What Doesn't Work
 
+- 2026-11-27 — Symlinking `server/node_modules` (or `reviewer-core/node_modules`) into another worktree breaks `pnpm lint:arch`: dependency-cruiser resolves through the symlink to absolute paths outside the repo (`../../../../Users/.../node_modules/drizzle-orm/index.d.ts`), so none of the 23 baselined violations match and every one reports as new. Install for real with `pnpm install --frozen-lockfile --offline` (store hardlinks, seconds) instead. Also, the `node_modules/` gitignore pattern does not match a symlink, so it shows up as untracked. (`server/.dependency-cruiser-known-violations.json` · `lint:arch:imports`)
+
 ## Codebase Patterns
 
 ## Tool & Library Notes

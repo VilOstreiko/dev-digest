@@ -28,4 +28,6 @@ and that cost time to discover. Written by the `engineering-insights` skill.
 
 ## Open Questions
 
+- 2026-11-27 — Two client calls have no server route: `api.get(\`/repos/${repoId}/context\`)` and `api.post(\`/repos/${repoId}/context/reindex\`)`. No `routes.ts` under `server/src/modules` registers `/repos/:id/context`, so both 404 at runtime. Unknown whether the route is planned or the hooks are dead. The pr-self-review `api-contract` check flags this kind of call only when a diff adds it. (`client/src/lib/hooks/core.ts` · context hooks)
+
 - 2026-11-27 — No agreed home for shared pure utilities or shared non-data hooks. There is no `src/utils/` or `src/hooks/`. Shared pure functions sit flat in `src/lib/` (`model-label.ts`, `github-urls.ts`), and `lib/hooks/` holds TanStack Query hooks only. The `frontend-ui-architecture` skill assumes `utils/` and `hooks/`. Without it, agents put both kinds in `src/lib/`. Decide one convention and record it in the skill's "In this repo" section and in `client/CLAUDE.md`. (`client/src/lib/` · `model-label.ts`, `.claude/skills/frontend-ui-architecture/SKILL.md` · `In this repo`)
