@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: retry-threshold-placement
+expected_outcome: |
+  The rule 'failed and attempts < 3' and the number 3 live together in one named pure predicate (e.g. canRetryRun) outside the component, with a unit test; the component calls the predicate; the retry action goes through a mutation hook in lib/hooks on apiFetch.
