@@ -1,0 +1,104 @@
+{
+  "base": "origin/main",
+  "limits": {
+    "maxFiles": 40,
+    "maxChangedLines": 1500
+  },
+  "ignore": [
+    "**/pnpm-lock.yaml",
+    "**/package-lock.json",
+    "**/*.lock",
+    "skills-lock.json",
+    "server/src/db/migrations/meta/**",
+    "**/*.snap",
+    "**/*.{png,jpg,jpeg,gif,webp,ico,svg,woff,woff2,ttf,pdf}",
+    "**/dist/**",
+    "**/.next/**"
+  ],
+  "skills": {
+    "frontend-ui-architecture": {
+      "paths": [
+        "client/src/**/*.{ts,tsx}"
+      ]
+    },
+    "react-best-practices": {
+      "paths": [
+        "client/src/**/*.tsx",
+        "client/src/lib/hooks/**/*.ts"
+      ]
+    },
+    "next-best-practices": {
+      "paths": [
+        "client/src/app/**",
+        "client/next.config.*",
+        "client/src/middleware.ts",
+        "client/src/i18n/**"
+      ]
+    },
+    "react-testing-library": {
+      "paths": [
+        "client/**/*.test.{ts,tsx}",
+        "client/src/test/**"
+      ]
+    },
+    "onion-architecture": {
+      "paths": [
+        "server/src/**/*.ts",
+        "reviewer-core/src/**/*.ts"
+      ]
+    },
+    "fastify-best-practices": {
+      "paths": [
+        "server/src/**/routes.ts",
+        "server/src/**/routes/**/*.ts",
+        "server/src/app.ts",
+        "server/src/server.ts",
+        "server/src/platform/**/*.ts"
+      ]
+    },
+    "drizzle-orm-patterns": {
+      "paths": [
+        "server/src/db/**/*.ts",
+        "server/src/**/repository.ts",
+        "server/src/**/repository/**/*.ts"
+      ]
+    },
+    "postgresql-table-design": {
+      "paths": [
+        "server/src/db/schema.ts",
+        "server/src/db/schema/**/*.ts",
+        "server/src/db/migrations/*.sql"
+      ]
+    },
+    "zod": {
+      "paths": [
+        "**/*.{ts,tsx}"
+      ],
+      "contentPattern": "from ['\"]zod['\"]|\\bz\\.(object|string|number|boolean|enum|array|union|discriminatedUnion|infer|input|output)\\b"
+    },
+    "typescript-expert": {
+      "fallback": true,
+      "paths": [
+        "**/*.{ts,tsx,mts,cts}"
+      ]
+    },
+    "security": {
+      "fallback": true,
+      "paths": [
+        "**/*.{ts,tsx,mts,cts,js,mjs,cjs,sql,sh}",
+        "**/*.{yml,yaml}",
+        "**/.env*",
+        "**/Dockerfile*",
+        "docker-compose.yml",
+        "**/next.config.*",
+        "**/package.json",
+        ".claude/settings*.json"
+      ]
+    }
+  },
+  "excluded": {
+    "mermaid-diagram": "authoring aid for diagrams; nothing to enforce on a diff",
+    "engineering-insights": "write-back tool; used after the review to record rejected criticals",
+    "pr-self-review": "this skill"
+  }
+}

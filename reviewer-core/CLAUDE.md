@@ -13,6 +13,7 @@ Package manager: **npm**.
 - `npm test` — hermetic, stubbed `LLMProvider`, no keys
 - `npm run typecheck` — this is also the build; the package never emits JS
 - After changing an exported signature, also run `pnpm typecheck` in `../server`.
+- `pnpm lint:arch` in `../server` also checks this package stays SDK-free (`onion-architecture` skill).
 
 ## Map
 

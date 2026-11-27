@@ -1,0 +1,22 @@
+{
+  "src/modules/polling/routes.ts": {
+    "db": 3,
+    "github": 1
+  },
+  "src/modules/pulls/routes.ts": {
+    "db": 16,
+    "github": 4
+  },
+  "src/modules/repo-intel/routes.ts": {
+    "jobs": 1
+  },
+  "src/modules/settings/routes.ts": {
+    "db": 3,
+    "secrets": 3,
+    "github": 1,
+    "llm": 1
+  },
+  "src/modules/workspace/routes.ts": {
+    "db": 1
+  }
+}

@@ -41,6 +41,11 @@ tsconfig path aliases. Each package has its own `CLAUDE.md` (auto-loaded inside 
   substantive findings not already in the file; if there are none, write nothing and
   say "no new insights". Existing lines are never edited or deleted.
 
+## Before opening a PR
+
+- Run the `pr-self-review` skill. A hook in `.claude/settings.json` blocks `gh pr create`
+  until its verdict is PASS for the exact current code.
+
 ## Docs — read when relevant (not auto-loaded)
 
 - README.md — architecture diagram, quick start, roadmap (M1–M8)
