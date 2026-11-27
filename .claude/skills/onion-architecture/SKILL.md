@@ -2,14 +2,14 @@
 name: onion-architecture
 description: Enforces Onion Architecture (ports & adapters, inward-only dependencies) in the DevDigest backend — server/ (Fastify 5, Drizzle ORM, zod, Postgres, octokit/openai/anthropic/simple-git adapters, hand-written DI container) and reviewer-core/. Use whenever writing, moving or reviewing backend code — a new module, route, service/use case, repository, adapter, port, mapper, transaction or domain error — and whenever the question is "where should this go", "can this import that", "should the route query the DB", "how do I inject this", or a backend PR needs a layering review, even if the user never says "onion" or "architecture". Not for the Next.js client (use frontend-ui-architecture).
 metadata:
-  version: 2.0.3
+  version: 2.0.4
   updated: 2026-11-27
   scope: server/, reviewer-core/
 ---
 
 # Onion Architecture — DevDigest backend
 
-Version 2.0.3. Changelog and every source behind these rules: [README.md](README.md).
+Version 2.0.4. Changelog and every source behind these rules: [README.md](README.md).
 
 ## Why this exists
 

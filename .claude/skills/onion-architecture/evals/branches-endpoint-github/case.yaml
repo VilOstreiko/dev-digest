@@ -1,8 +1,0 @@
-schema_version: "1.1"
-name: branches-endpoint-github
-expected_outcome: |
-  The route only parses params, resolves tenancy with getContext and calls a service method. The
-  service gets GitHub access through an injected port (GitHubClient extended with a branch-listing
-  method in both @devdigest/shared copies, implemented in the Octokit adapter, mocked in mocks.ts) and
-  looks the repo up through a repository, workspace-scoped. A missing repo becomes a typed not-found
-  error mapped to 404 by the shared error handler. Tests cover the use case without a database.

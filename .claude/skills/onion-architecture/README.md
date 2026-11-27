@@ -1,6 +1,6 @@
 # onion-architecture
 
-**Version:** 2.0.3 · **Updated:** 2026-11-27 · **Scope:** `server/`, `reviewer-core/`
+**Version:** 2.0.4 · **Updated:** 2026-11-27 · **Scope:** `server/`, `reviewer-core/`
 
 A project skill that keeps the DevDigest backend in Onion Architecture (ports & adapters, dependencies
 pointing inward only). The agent uses it to decide which ring new code goes in and what it may import,
@@ -52,6 +52,7 @@ Semantic versioning, kept in `metadata.version` in `SKILL.md` and in the header 
 
 ## Changelog
 
+- **2.0.4** (2026-11-27): removes the eval cases (`evals/`) from the skill.
 - **2.0.3** (2026-11-27): fixes from eval iteration 2.
   - `examples.md` now names the port method `listSummariesForWorkspace` instead of `listClonedForWorkspace`, which wrongly suggested filtering to cloned repos.
   - `errors.md` now says to map the `DomainError` base class, so that an unmapped kind does not return 500.
