@@ -15,12 +15,16 @@ and that cost time to discover. Written by the `engineering-insights` skill.
 
 ## Codebase Patterns
 
+- 2026-11-21 — Fields added to `RunStats` must be `.nullish()`: `getRunTrace` returns the stored `run_traces.trace` jsonb without parsing, so traces written before the field existed come back without it. Per-run cost was removed once on purpose (`d45ab0d`, migration 0009) and restored in 0010; `git show d45ab0d` maps every place the cost goes through. (`server/src/modules/reviews/repository/run.repo.ts` · `getRunTrace`)
+
 ## Tool & Library Notes
 
 - 2026-11-27 — `lint:arch` cruises `../reviewer-core/src` from `server/`, so core paths appear as `../reviewer-core/src/...` and its `openai` import is unresolved (reviewer-core's own `node_modules` is usually not installed) and shows up as bare `openai`, not `node_modules/openai/` — rules targeting core must match both forms, as `onion-core-no-sdk` does. Also `tsPreCompilationDeps: true` is required or `import type` leaks (e.g. `AgentRow`) go unseen.
   Evidence: `server/.dependency-cruiser.cjs` · `onion-core-no-sdk`
 
 ## Recurring Errors & Fixes
+
+- 2026-11-21 — `pnpm typecheck` in a fresh worktree fails with `Cannot find module 'openai'` / `'zod'` from `../reviewer-core/src/llm/*`, plus follow-on `unknown → T` errors in `src/adapters/llm/{openai,anthropic}.ts`. Cause: the server compiles reviewer-core as source, and reviewer-core has its own `node_modules` that the worktree does not have. Vitest still passes. Fix: run `npm install` in `reviewer-core/` before typechecking. (`server/tsconfig.json` · path aliases)
 
 ## Session Notes
 

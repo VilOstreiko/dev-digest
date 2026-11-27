@@ -53,3 +53,43 @@ export function deriveReviewStatus(args: {
   if (updatedAt && now - updatedAt.getTime() > staleMs) return 'stale';
   return 'reviewed';
 }
+
+export interface CostRunRow {
+  prId: string | null;
+  agentId: string | null;
+  costUsd: number | null;
+}
+
+export function latestCostByPr(newestFirst: CostRunRow[]): Map<string, number> {
+  const seen = new Set<string>();
+  const totals = new Map<string, number>();
+  for (const run of newestFirst) {
+    if (!run.prId) continue;
+    const key = `${run.prId}:${run.agentId ?? ''}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    if (run.costUsd == null) continue;
+    totals.set(run.prId, (totals.get(run.prId) ?? 0) + run.costUsd);
+  }
+  return totals;
+}
+
+export interface ReviewKeyRow {
+  id: string;
+  prId: string;
+  agentId: string | null;
+}
+
+export function latestReviewIdsByPrAgent(newestFirst: ReviewKeyRow[]): Map<string, string[]> {
+  const seen = new Set<string>();
+  const ids = new Map<string, string[]>();
+  for (const review of newestFirst) {
+    const key = `${review.prId}:${review.agentId ?? ''}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const list = ids.get(review.prId) ?? [];
+    list.push(review.id);
+    ids.set(review.prId, list);
+  }
+  return ids;
+}

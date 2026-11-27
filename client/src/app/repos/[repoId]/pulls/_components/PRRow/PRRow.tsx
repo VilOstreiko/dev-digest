@@ -8,6 +8,8 @@ import { Icon, Avatar, Badge, CircularScore } from "@devdigest/ui";
 import type { PrMeta } from "@/lib/types";
 import { SIZE_COLOR, STATUS_META } from "../../constants";
 import { relativeTime, sizeOf } from "../../helpers";
+import { formatCost } from "@/lib/format-cost";
+import { SeverityCounters } from "@/components/findings-summary";
 import { s } from "../../styles";
 
 export function PRRow({ pr, repoId }: { pr: PrMeta; repoId: string }) {
@@ -54,9 +56,19 @@ export function PRRow({ pr, repoId }: { pr: PrMeta; repoId: string }) {
         )}
       </div>
       <div>
+        {pr.findings && pr.findings.length > 0 ? (
+          <SeverityCounters findings={pr.findings} />
+        ) : (
+          <span style={s.muted}>—</span>
+        )}
+      </div>
+      <div>
         <Badge dot color={st.c} bg="transparent">
           {t(`list.status.${st.labelKey}`)}
         </Badge>
+      </div>
+      <div className="mono tnum" style={pr.cost_usd == null ? s.muted : s.costCell}>
+        {formatCost(pr.cost_usd)}
       </div>
       <div style={s.updatedCell}>{relativeTime(pr.updated_at)}</div>
     </div>

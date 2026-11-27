@@ -208,6 +208,48 @@ d('A2 reviews + agents (Testcontainers pg)', () => {
     expect(run!.status).toBe('done');
     expect(run!.findingsCount).toBe(1);
     expect(run!.grounding).toBe('1/2 passed');
+    expect(run!.costUsd).toBeGreaterThan(0);
+    expect(trace.stats.cost_usd).toBe(run!.costUsd);
+
+    const runs = (await app.inject({ method: 'GET', url: `/pulls/${pr.id}/runs` })).json();
+    expect(runs[0].cost_usd).toBe(run!.costUsd);
+
+    const [unreviewed] = await pg.handle.db
+      .insert(t.pullRequests)
+      .values({
+        workspaceId,
+        repoId: pr.repoId,
+        number: 483,
+        title: 'Never reviewed',
+        author: 'marisa.koch',
+        branch: 'feat/other',
+        base: 'main',
+        headSha: 'e5f6a7b8',
+        additions: 1,
+        deletions: 0,
+        filesCount: 1,
+        status: 'needs_review',
+      })
+      .returning();
+
+    const pulls = (await app.inject({ method: 'GET', url: `/repos/${pr.repoId}/pulls` })).json();
+    const listed = pulls.find((p: { id: string }) => p.id === pr.id);
+    expect(listed.cost_usd).toBe(run!.costUsd);
+    const kept = review.findings[0];
+    expect(listed.findings).toEqual([
+      {
+        id: kept.id,
+        severity: kept.severity,
+        category: kept.category,
+        title: kept.title,
+        file: 'src/config.ts',
+        start_line: 11,
+        end_line: kept.end_line,
+        confidence: kept.confidence,
+        rationale: kept.rationale,
+      },
+    ]);
+    expect(pulls.find((p: { id: string }) => p.id === unreviewed!.id).findings).toBeNull();
 
     await app.close();
   });

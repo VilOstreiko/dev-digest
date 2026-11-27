@@ -5,11 +5,12 @@
 import React from "react";
 import { useTranslations } from "next-intl";
 import { Toggle, EmptyState } from "@devdigest/ui";
-import type { FindingRecord } from "@devdigest/shared";
+import type { FindingRecord, Severity } from "@devdigest/shared";
 import { FindingCard } from "../FindingCard";
 import { useFindingAction } from "../../../../../../../lib/hooks/reviews";
 import { KEY_TO_ACTION } from "./constants";
-import { visibleFindings } from "./helpers";
+import { severityPillCounts, visibleFindings } from "./helpers";
+import { SeverityPill } from "./SeverityPill";
 import { s } from "./styles";
 
 export function FindingsPanel({
@@ -26,9 +27,24 @@ export function FindingsPanel({
   const t = useTranslations("prReview");
   const action = useFindingAction();
   const [hideLow, setHideLow] = React.useState(false);
+  const [severity, setSeverity] = React.useState<Severity | null>(null);
   const [focusIdx, setFocusIdx] = React.useState(0);
 
-  const shown = React.useMemo(() => visibleFindings(findings, hideLow), [findings, hideLow]);
+  const counts = React.useMemo(() => severityPillCounts(findings, hideLow), [findings, hideLow]);
+  const activeSeverity = counts.some((c) => c.severity === severity) ? severity : null;
+  const shown = React.useMemo(
+    () => visibleFindings(findings, hideLow, activeSeverity),
+    [findings, hideLow, activeSeverity],
+  );
+
+  const pickSeverity = (sev: Severity) => {
+    setSeverity(activeSeverity === sev ? null : sev);
+    setFocusIdx(0);
+  };
+  const toggleHideLow = (on: boolean) => {
+    setHideLow(on);
+    setFocusIdx(0);
+  };
 
   // j/k navigation + a/d shortcuts on the focused finding (keyboard).
   React.useEffect(() => {
@@ -48,9 +64,25 @@ export function FindingsPanel({
   return (
     <div>
       <div style={s.toolbar}>
+        {counts.length > 0 && (
+          <>
+            <div role="group" aria-label={t("panel.severityFilter")} style={s.pills}>
+              {counts.map((c) => (
+                <SeverityPill
+                  key={c.severity}
+                  severity={c.severity}
+                  count={c.count}
+                  selected={activeSeverity === c.severity}
+                  onClick={() => pickSeverity(c.severity)}
+                />
+              ))}
+            </div>
+            <span style={s.divider} />
+          </>
+        )}
         <div style={s.toggleGroup}>
           {t("panel.hideLowConfidence")}
-          <Toggle on={hideLow} onChange={setHideLow} size={16} />
+          <Toggle on={hideLow} onChange={toggleHideLow} size={16} />
         </div>
       </div>
 
