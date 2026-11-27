@@ -22,4 +22,4 @@ Read the relevant spec before implementing a feature.
 
 ## Index
 
-_No specs yet._
+- [m1-run-cost-badge.md](m1-run-cost-badge.md) — run and PR review cost

@@ -6,7 +6,7 @@
  * + age, so it gets unit coverage independent of the route's queries.
  */
 import { describe, it, expect } from 'vitest';
-import { deriveReviewStatus, rollupSeverities, STALE_DAYS } from '../src/modules/pulls/status.js';
+import { deriveReviewStatus, latestCostByPr, rollupSeverities, STALE_DAYS } from '../src/modules/pulls/status.js';
 
 const DAY = 86_400_000;
 const now = Date.UTC(2026, 5, 11);
@@ -64,5 +64,29 @@ describe('rollupSeverities', () => {
 
   it('is all-zero for no findings', () => {
     expect(rollupSeverities([])).toEqual({ critical: 0, warning: 0, suggestion: 0 });
+  });
+});
+
+describe('latestCostByPr', () => {
+  it('sums the newest run per agent and ignores older runs of the same agent', () => {
+    const totals = latestCostByPr([
+      { prId: 'p1', agentId: 'sec', costUsd: 0.0013 },
+      { prId: 'p1', agentId: 'perf', costUsd: 0.0014 },
+      { prId: 'p1', agentId: 'sec', costUsd: 0.5 },
+    ]);
+    expect(totals.get('p1')).toBeCloseTo(0.0027);
+  });
+
+  it('skips unknown costs and leaves PRs with no known cost absent', () => {
+    const totals = latestCostByPr([
+      { prId: 'p1', agentId: 'sec', costUsd: null },
+      { prId: 'p1', agentId: 'perf', costUsd: 0.002 },
+      { prId: 'p2', agentId: 'sec', costUsd: null },
+      { prId: 'p2', agentId: 'sec', costUsd: 0.9 },
+      { prId: null, agentId: 'sec', costUsd: 1 },
+    ]);
+    expect(totals.get('p1')).toBe(0.002);
+    expect(totals.has('p2')).toBe(false);
+    expect(totals.size).toBe(1);
   });
 });
