@@ -23,3 +23,4 @@ Read the relevant spec before implementing a feature.
 ## Index
 
 - [m1-run-cost-badge.md](m1-run-cost-badge.md) — run and PR review cost
+- [m1-findings-severity.md](m1-findings-severity.md) — findings of each agent's latest review on the PR list

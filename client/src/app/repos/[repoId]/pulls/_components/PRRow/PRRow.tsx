@@ -9,6 +9,7 @@ import type { PrMeta } from "@/lib/types";
 import { SIZE_COLOR, STATUS_META } from "../../constants";
 import { relativeTime, sizeOf } from "../../helpers";
 import { formatCost } from "@/lib/format-cost";
+import { SeverityCounters } from "@/components/findings-summary";
 import { s } from "../../styles";
 
 export function PRRow({ pr, repoId }: { pr: PrMeta; repoId: string }) {
@@ -50,6 +51,13 @@ export function PRRow({ pr, repoId }: { pr: PrMeta; repoId: string }) {
       <div style={s.scoreCell}>
         {reviewed ? (
           <CircularScore score={pr.score!} size={34} stroke={3} />
+        ) : (
+          <span style={s.muted}>—</span>
+        )}
+      </div>
+      <div>
+        {pr.findings && pr.findings.length > 0 ? (
+          <SeverityCounters findings={pr.findings} />
         ) : (
           <span style={s.muted}>—</span>
         )}
