@@ -5,4 +5,4 @@ timeout_seconds: 900
 allowed_tools: [Read, Glob, Grep, Skill, Write, Bash]
 ---
 
-У клієнті в `RunHistory` (сторінка PR) треба показувати кнопку Retry біля рану, якщо він має статус failed і в нього було менше 3 спроб. Куди покласти цю логіку і саме число 3, і як це має виглядати в коді? Покажи зміни по файлах.
+In the client, `RunHistory` (on the PR page) needs to show a Retry button next to a run when its status is failed and it has had fewer than 3 attempts. Where should this logic and the number 3 live, and what should it look like in code? Show the changes file by file.
